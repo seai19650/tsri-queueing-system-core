@@ -24,7 +24,7 @@ This system contains 2 major parts. **TSRI** and **Queueing**
 | Database (Dev Environment)         | MariaDB                       | Database for Queueing System                                                                |
 | Database (Production Environment)  | MySQL (Google SQL)            |                                                                                             |
 | Message Broker                     | RabbitMQ                      | For queueing and distributing tasks across workers                                          |
-| In-Memory Database                 | Redis                         | Store Refresh Token for authentication system                                               |
-| Web Server / Reverse Proxy         | NGINX                         | Serve Static File / Reverse Proxy for Queueing System                                       |
-| Admin Console                      | Nuxt.js (Vue.js - JavaScript) | Admin / Developer console for system overall status and detail                              |
+| In-Memory Database                 | Redis                         | Store refresh token for authentication system                                               |
+| Web Server / Reverse Proxy         | NGINX                         | Serve static files / reverse proxy for Queueing System                                       |
+| Admin Console                      | Nuxt.js (Vue.js - JavaScript) | Admin / developer console for system overall status and detail                              |
 | Worker(s) - NLP / Machine Learning | Python / Java                 | Contains NLP / ML / DL code and execute tasks from Message Broker (Modeling, Deepcut, etc.) |
