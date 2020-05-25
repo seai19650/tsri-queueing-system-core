@@ -4,6 +4,66 @@ Core System and Boot script for TRSI / Queueing Infrastructure
 - [Docker](https://www.docker.com): 
 The entire system is built on Containerization Technology (Docker 🐳) 
 for easy and fast development / deployment workflow
+### Directory Structure
+In order to use this system without the need to config every system components on how they 
+handle each other. We **strongly** recommend you to create the following directory structure.
+
+Some components are hosted in different GitHub repositories. 
+You may need to have permission on all of them in order to obtain all code to run the system.
+```bash
+.root
+│
+│=======================================│  
+│   Core System (This Git Repository)   │
+│=======================================│
+├── core-system
+│   ├── README.md
+│   ├── docker-compose
+│   │   ├── Makefile
+│   │   ├── queueing
+│   │   └── tsri
+│   └── kubernetes
+│       ├── 01-init
+│       ├── 02-deployments
+│       ├── 03-services
+│       └── secrets
+│
+│=======================================│  
+│   Queueing System                     │
+│=======================================│
+├── queueing-system <<--------------- (Create this)
+│   ├── queueing-db <<--------------- (Clone this)
+│   │   ├── Dockerfile
+│   │   └── ...
+│   ├── queueing-express <<---------- (Clone this)
+│   │   ├── Dockerfile
+│   │   ├── Dockerfile.dev
+│   │   └── ...
+│   ├── queueing-frontend <<--------- (Clone this)
+│   │   ├── Dockerfile
+│   │   ├── Dockerfile.dev
+│   │   └── ...
+│   ├── queueing-nginx <<------------ (Clone this)
+│   │   ├── Dockerfile
+│   │   ├── Dockerfile.dev
+│   │   └── ...
+│   └── queueing-worker <<----------- (Clone this)
+│       ├── Dockerfile
+│       ├── Dockerfile.dev
+│       └── ...
+│
+│=======================================│  
+│   TSRI                                │
+│=======================================│
+└── tsri-system <<------------------- (Create this)
+    ├── tsri-django <<--------------- (Clone this)
+    │   ├── Dockerfile
+    │   ├── Dockerfile.dev
+    │   └── ...
+    └── tsri-nginx <<---------------- (Clone this)
+        ├── k8s
+        └── prod
+```
 ## Installation
 We have 3 different methods to set up the system environments including
 1. Development [Go to docker-compose directory for more](docker-compose)
