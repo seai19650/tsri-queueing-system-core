@@ -31,23 +31,23 @@ You may need to have permission on all of them in order to obtain all code to ru
 │=======================================│  
 │   Queueing System                     │
 │=======================================│
-├── queueing-system <<--------------- (Create this)
-│   ├── queueing-db <<--------------- (Clone this)
+├── queueing-system <--------------- (Create this)
+│   ├── queueing-db <--------------- (Clone this)
 │   │   ├── Dockerfile
 │   │   └── ...
-│   ├── queueing-express <<---------- (Clone this)
-│   │   ├── Dockerfile
-│   │   ├── Dockerfile.dev
-│   │   └── ...
-│   ├── queueing-frontend <<--------- (Clone this)
+│   ├── queueing-express <---------- (Clone this)
 │   │   ├── Dockerfile
 │   │   ├── Dockerfile.dev
 │   │   └── ...
-│   ├── queueing-nginx <<------------ (Clone this)
+│   ├── queueing-frontend <--------- (Clone this)
 │   │   ├── Dockerfile
 │   │   ├── Dockerfile.dev
 │   │   └── ...
-│   └── queueing-worker <<----------- (Clone this)
+│   ├── queueing-nginx <------------ (Clone this)
+│   │   ├── Dockerfile
+│   │   ├── Dockerfile.dev
+│   │   └── ...
+│   └── queueing-worker <----------- (Clone this)
 │       ├── Dockerfile
 │       ├── Dockerfile.dev
 │       └── ...
@@ -55,12 +55,12 @@ You may need to have permission on all of them in order to obtain all code to ru
 │=======================================│  
 │   TSRI                                │
 │=======================================│
-└── tsri-system <<------------------- (Create this)
-    ├── tsri-django <<--------------- (Clone this)
+└── tsri-system <------------------- (Create this)
+    ├── tsri-django <--------------- (Clone this)
     │   ├── Dockerfile
     │   ├── Dockerfile.dev
     │   └── ...
-    └── tsri-nginx <<---------------- (Clone this)
+    └── tsri-nginx <---------------- (Clone this)
         ├── k8s
         └── prod
 ```
