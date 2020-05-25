@@ -1,5 +1,5 @@
 .env*
-!.env.example.*
+!.env.example*
 secrets/
 database-config.json
-.DS_Store/
+.DS_Store
