@@ -64,11 +64,6 @@ You may need to have permission on all of them in order to obtain all code to ru
         ├── k8s
         └── prod
 ```
-## Installation
-We have 3 different methods to set up the system environments including
-1. Development [Go to docker-compose directory for more](docker-compose)
-2. Production without Kubernetes [Go to docker-compose directory for more](docker-compose)
-3. Production with Kubernetes [Still working on this](kubernetes)
 ## Infrastructure
 This system contains 2 major parts. **TSRI** and **Queueing**
 ### TSRI
@@ -88,3 +83,8 @@ This system contains 2 major parts. **TSRI** and **Queueing**
 | Web Server / Reverse Proxy         | NGINX                         | Serve static files / reverse proxy for Queueing System                                       |
 | Admin Console                      | Nuxt.js (Vue.js - JavaScript) | Admin / developer console for system overall status and detail                              |
 | Worker(s) - NLP / Machine Learning | Python / Java                 | Contains NLP / ML / DL code and execute tasks from Message Broker (Modeling, Deepcut, etc.) |
+## Installation
+We have 3 different methods to set up the system environments including
+1. Development [Go to docker-compose directory for more](docker-compose)
+2. Production without Kubernetes [Go to docker-compose directory for more](docker-compose)
+3. Production with Kubernetes [Still working on this](kubernetes)
