@@ -1,7 +1,15 @@
 # Setup with Docker Compose
 This directory contains [Makefile](Makefile) which you can use to fast-forward many setup steps.
 > It is a good idea to run these commands in-order to avoid some unexpected behaviors.
+## Env file (.env*)
+> Constructing
 ## Development Environment
+Development Environment provides some extra features such as
+- hot-reload code changes
+- real-time debugging logs
+- worry-free environment since these all run inside containers
+- all images are built with development-focus.
+
 ### Start development environment
 ```bash
 make dev-system
@@ -33,6 +41,10 @@ make dev-tsri-createsuperuser
 make dev-down
 ```
 ## Production Environment
+Production Environment cuts out development helper feature and focus on performance and security.
+- hot-reload is disabled
+- logging is disabled on most parts (except system log files)
+- all images are built with performance-focus.
 ### Start production environment
 ```bash
 make production-system
