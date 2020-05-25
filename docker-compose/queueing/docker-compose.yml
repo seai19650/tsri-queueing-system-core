@@ -1,0 +1,111 @@
+version: '3.5'
+services:
+
+  ##############
+  #--Frontend--#
+  ##############
+
+  frontend:
+    container_name: queueing-frontend
+    build:
+      dockerfile: Dockerfile.dev
+      context: ../../../queueing-system/queueing-frontend
+    volumes:
+      - /app/node_modules
+      - ../../../queueing-system/queueing-frontend:/app
+    networks: 
+      - queueing_link
+    ports:
+      - "3000:3000"
+
+  ##############
+  #-API System-#
+  ##############
+
+  # Nginx Reverse Proxy
+  nginx:
+    container_name: queueing-nginx
+    build:
+      dockerfile: Dockerfile.dev
+      context: ../../../queueing-system/queueing-nginx
+    ports:
+      - "8080:80"
+      - "9229:9229"
+    networks: 
+      - queueing_link
+    depends_on:
+      - express
+      - frontend
+    restart: always
+
+  # Express
+  express:
+    container_name: queueing-express
+    build:
+      dockerfile: Dockerfile.dev
+      context: ../../../queueing-system/queueing-express
+    volumes:
+      - /app/node_modules # leave this folder untouched
+      - ../../../queueing-system/queueing-express:/app
+      - database-config.json:/app/config/config.json
+    depends_on:
+      - db
+      - rabbitmq
+    networks: 
+      - queueing_link
+    env_file:
+      - .env.dev
+  
+  # Database
+  db:
+    container_name: queueing-db
+    build:
+      context: ../../../queueing-system/queueing-db
+    restart: always
+    ports:
+      - "3306:3306"
+    volumes:
+      - ../../../queueing-system/queueing-db/data-dev:/var/lib/mysql
+    env_file:
+      - .env.dev.db
+    networks: 
+      - queueing_link
+  
+  # RabbitMQ
+  rabbitmq:
+    container_name: queueing-rabbitmq
+    image: rabbitmq:3.8.0-management-alpine
+    hostname: rabbitmq
+    env_file:
+      - .env.dev.rabbitmq
+    ports:
+      - "15672:15672"
+    volumes:
+      - ../../../queueing-system/queueing-rabbitmq:/var/lib/rabbitmq
+    networks: 
+      - queueing_link
+
+  # Redis
+  redis:
+    container_name: queueing-redis
+    image: "redis:alpine"
+    networks:
+      - queueing_link
+  
+  ##############
+  #---Worker---#
+  ##############
+
+  worker:
+    build:
+      dockerfile: Dockerfile.dev
+      context: ../../../queueing-system/queueing-worker
+    volumes:
+      - ../../../queueing-system/queueing-worker:/app
+    restart: always
+    networks: 
+      - queueing_link
+
+networks:
+  queueing_link:
+    name: Queueing_Link

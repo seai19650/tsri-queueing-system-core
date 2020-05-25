@@ -1,0 +1,56 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: ingress-tsri
+  annotations:
+    # use the shared ingress-nginx
+    kubernetes.io/ingress.class: "nginx"
+    kubernetes.io/tls-acme: "true"
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    # nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/proxy-body-size: "100m"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
+    nginx.ingress.kubernetes.io/websocket-services : "express-node-port"
+    nginx.org/websocket-services: "express-node-port"
+    nginx.ingress.kubernetes.io/from-to-www-redirect: "True"
+spec:
+  tls:
+    - hosts:
+      - meawtsri.com
+      - www.meawtsri.com
+      - api.meawtsri.com
+      secretName: meawtsri-tls
+  rules:
+    - host: meawtsri.com
+      http: &django-access
+        paths:
+        - path: /
+          backend:
+            serviceName: django-node-port
+            servicePort: 8000
+        - path: /static
+          backend:
+            serviceName: django-node-port
+            servicePort: 5050
+        - path: /media
+          backend:
+            serviceName: django-node-port
+            servicePort: 5050
+    - host: www.meawtsri.com
+      http: *django-access
+    - host: api.meawtsri.com
+      http:
+        paths:
+        - path: /
+          backend:
+            serviceName: frontend-node-port
+            servicePort: 3000
+        - path: /api
+          backend:
+            serviceName: express-node-port
+            servicePort: 3000 
+        - path: /socket.io
+          backend:
+            serviceName: express-node-port
+            servicePort: 3000

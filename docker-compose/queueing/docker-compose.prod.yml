@@ -1,0 +1,97 @@
+version: '3.5'
+services:
+
+  ##############
+  #--Frontend--#
+  ##############
+
+  frontend:
+    container_name: queueing-frontend
+    build:
+      context: ../../../queueing-system/queueing-frontend
+    networks: 
+      - queueing_link
+
+  ##############
+  #-API System-#
+  ##############
+
+  # Nginx Reverse Proxy
+  nginx:
+    container_name: queueing-nginx
+    build:
+      context: ../../../queueing-system/queueing-nginx
+    ports:
+      - "8080:80"
+    networks: 
+      - queueing_link
+    depends_on:
+      - express
+      - frontend
+    restart: always
+
+  # Express
+  express:
+    container_name: queueing-express
+    build:
+      context: ../../../queueing-system/queueing-express
+    depends_on:
+      - db
+      - rabbitmq
+    volumes:
+      - database-config.json:/app/config/config.json
+    networks: 
+      - queueing_link
+    env_file:
+      - .env.prod    
+  
+  # Database
+  db:
+    container_name: queueing-db
+    build:
+      context: ../../../queueing-system/queueing-db
+    restart: always
+    volumes:
+      - ../../../queueing-system/queueing-db/data-prod:/var/lib/mysql
+    env_file:
+      - .env.prod.db
+    networks: 
+      - queueing_link
+  
+  # RabbitMQ
+  rabbitmq:
+    container_name: queueing-rabbitmq
+    image: rabbitmq:3.8.0-management-alpine
+    hostname: rabbitmq
+    env_file:
+      - .env.prod.rabbitmq
+    volumes:
+      - ../../../queueing-system/queueing-rabbitmq:/var/lib/rabbitmq
+    networks: 
+      - queueing_link
+
+  # Redis
+  redis:
+    container_name: queueing-redis
+    image: "redis:alpine"
+    networks:
+      - queueing_link
+  
+  ##############
+  #---Worker---#
+  ##############
+
+  worker:
+    build:
+      context: ../../../queueing-system/queueing-worker
+    volumes:
+      - ../../../queueing-system/queueing-worker/documents:/app/documents
+      - ../../../queueing-system/queueing-worker/converted:/app/converted
+      - ../../../queueing-system/queueing-worker/results:/app/results
+    restart: always
+    networks: 
+      - queueing_link
+
+networks:
+  queueing_link:
+    name: Queueing_Link
