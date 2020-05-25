@@ -1,5 +1,5 @@
 # Setup with Docker Compose
-this directory contains [Makefile](Makefile) which you can use to fast-forward many setup steps.
+This directory contains [Makefile](Makefile) which you can use to fast-forward many setup steps.
 > It is a good idea to run these commands in-order to avoid some unexpected behaviors.
 ## Development Environment
 ### Start development environment
