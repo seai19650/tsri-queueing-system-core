@@ -39,7 +39,7 @@ services:
       - db
       - rabbitmq
     volumes:
-      - database-config.json:/app/config/config.json
+      - ${PWD}/database-config.json:/app/config/config.json
     networks: 
       - queueing_link
     env_file:

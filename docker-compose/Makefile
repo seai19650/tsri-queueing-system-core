@@ -1,8 +1,8 @@
-queueing-dev-compose = docker-compose -f "./docker-compose/queueing/docker-compose.yml"
-tsri-dev-compose = docker-compose -f "./docker-compose/tsri/docker-compose.yml"
+queueing-dev-compose = docker-compose -f "./queueing/docker-compose.yml"
+tsri-dev-compose = docker-compose -f "./tsri/docker-compose.yml"
 
-queueing-production-compose = docker-compose -f "./docker-compose/queueing/docker-compose.prod.yml"
-tsri-production-compose = docker-compose -f "./docker-compose/tsri/docker-compose.prod.yml"
+queueing-production-compose = docker-compose -f "./queueing/docker-compose.prod.yml"
+tsri-production-compose = docker-compose -f "./tsri/docker-compose.prod.yml"
 
 # System
 

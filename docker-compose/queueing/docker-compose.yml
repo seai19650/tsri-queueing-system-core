@@ -47,7 +47,7 @@ services:
     volumes:
       - /app/node_modules # leave this folder untouched
       - ../../../queueing-system/queueing-express:/app
-      - database-config.json:/app/config/config.json
+      - ${PWD}/database-config.json:/app/config/config.json
     depends_on:
       - db
       - rabbitmq
