@@ -10,7 +10,7 @@ services:
     depends_on:
       - django
     volumes:
-      - ../../../tsri-system/tsri-django/app/assets:/app/assets
+      - ../../../tsri-system/tsri-django/assets:/app/assets
     ports:
       - "8090:80"
     restart: always
@@ -31,14 +31,14 @@ services:
   django:
     container_name: trsi-django
     build:
-      context: ../../../tsri-system/tsri-django
+      context: ../../../tsri-system/tsri-django/trfai
     command: gunicorn trfai.wsgi:application --bind 0.0.0.0:8000
     restart: always
     depends_on:
       - db
     volumes:
-      - ../../../tsri-system/tsri-django/app/assets:/app/assets
-      - ../../../tsri-system/tsri-django/app/trfai/trfai_app/migrations:/app/trfai/trfai_app/migrations
-      - ../../../tsri-system/tsri-django/app/trfai/templates/ldavis:/app/trfai/templates/ldavis
+      - ../../../tsri-system/tsri-django/assets:/app/assets
+      - ../../../tsri-system/tsri-django/trfai/trfai_app/migrations:/app/trfai/trfai_app/migrations
+      - ../../../tsri-system/tsri-django/trfai/templates/ldavis:/app/trfai/templates/ldavis
     env_file:
       - .env.prod

@@ -9,6 +9,7 @@ services:
     ports:
       - 5432:5432
     volumes:
+      - ./import-master-data.sql:/init/import-master-data.sql
       - ../../../tsri-system/tsri-postgres/postgres_data_dev:/var/lib/postgresql/data/
     env_file:
       - ./.env.dev.db
@@ -17,14 +18,14 @@ services:
   django:
     container_name: trsi-django
     build:
-      context: ../../../tsri-system/tsri-django
+      context: ../../../tsri-system/tsri-django/trfai
       dockerfile: Dockerfile.dev
     ports:
       - "8090:8000"
     restart: always
     volumes:
       - static_volume:/app/assets/static
-      - ../../../tsri-system/tsri-django/app:/app
+      - ../../../tsri-system/tsri-django:/app
     depends_on:
       - db
     env_file:
