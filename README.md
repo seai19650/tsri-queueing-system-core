@@ -1,5 +1,5 @@
 # TSRI / Queueing Core System
-Core System and Boot script for TRSI / Queueing Infrastructure
+Core System and Boot script for TSRI / Queueing Infrastructure
 ## Prerequisite
 - [Docker](https://www.docker.com): 
 The entire system is built on Containerization Technology (Docker 🐳) 
