@@ -2,24 +2,80 @@
 This directory contains [Makefile](Makefile) which you can use to fast-forward many setup steps.
 > It is a good idea to run these commands in-order to avoid some unexpected behaviors.
 ## Env file (.env*)
-> Under construction
-
-.env are files with some key-values to use in the system via docker-compose. 
+.env are files with some key-values to use in the system via **docker-compose**. 
 Some of them are critical, credential, and consider secret. 
 So **don't push them to any git repositories**. 
 In this repo we provide an example on what and how you should edit these .env files.
-> These filenames are formatted as 
->.env.{env-name}.{system-to-focus (optional. Empty means it's main .env file)}
->though this is not required but it's how to keep everything organize.
+
+**Development env files are**
+   - queueing/.env.dev
+   - queueing/.env.dev.db
+   - queueing/.env.dev.rabbitmq
+   - tsri/.env.dev
+   - tsri/.env.dev.db
+
+**Production env files are**
+   - queueing/.env.prod
+   - queueing/.env.prod.db
+   - queueing/.env.prod.rabbitmq
+   - tsri/.env.prod
+   - tsri/.env.prod.db
+
 ### Queueing
 There are 3 env files
 - main [.env.example](queueing/.env.example)
+    - `NODE_ENV`: Application State
+        - ex. `development` or blank means this express is running in development mode.
+        - this value is used to determine which database config to use from [database config file](queueing/database-config/config.json) 
+    - `ENDPOINT`: the url that this system will use to send all results to TSRI.
+        - ex. `http://localhost:8090/ws/project_analysis/result`
+    - `SERVER_ADDRESS`: the domain name that this system uses.
+        - ex. `http://localhost:8080`
+    - `API_KEY`: String represent Token to authenticate request from TSRI. 
+    (Usually comes from Django Access Token User Account)
+        - ex. `"Token QWERTYUIOP123456789ASDFGHJKLZXCVB"`
+        
 - database [.env.example.db](queueing/.env.example.db)
+    - `MYSQL_USER`: main username for database to create
+    - `MYSQL_PASSWORD` : main password for above username
+    - `MYSQL_ROOT_PASSWORD`: root password for database access
+    - `MYSQL_DATABASE`: database name to create
+    - `TZ`: Timezone for the system.
+        - ex.  `Asia/Bangkok`
+        
 - rabbitmq [.env.example.rabbitmq](queueing/.env.example.rabbitmq)
+    - `RABBITMQ_DEFAULT_USER`: username to initialize rabbitmq
+    - `RABBITMQ_DEFAULT_PASS`: password for above username
+
+> There is [database config file](queueing/database-config/config.json) 
+> used in Express application. You need to edit this file to match with [database env file](queueing/.env.example.db).
+> This file **should not** be push to any git repositories. Like .env files. Since it contains database secrets.
+
 ### TSRI
 There are 2 env files
 - main [.env.example](tsri/.env.example)
+    - `DEBUG`: `1` for debug `0` for production
+    - `DJANGO_ALLOWED_HOSTS`: allow host for Django
+    - `SQL_ENGINE`: SQL Engine to use
+        - ex. `django.db.backends.postgresql_psycopg2` for Postgres
+        - default value is `django.db.backends.sqlite3` for SQLite
+    - `SQL_DATABASE`: database name
+    - `SQL_USER`: username for accessing database
+    - `SQL_PASSWORD`: password associated with above username
+    - `SQL_HOST`: database host
+        - default to `localhost`
+    - `SQL_PORT`: database port
+        - default to `5432` which is default Postgres Port
+    - `DOMAIN_NAME`: this TSRI Domain name
+        - ex. `http://localhost:8090`
+    - `API_URL`: the url endpoint that TSRI will use to send request to Queueing System
+        - ex. `http://localhost:8080/api/request`
+        
 - database [.env.example.db](tsri/.env.example.db)
+    - `POSTGRES_USER`: username to initialize database
+    - `POSTGRES_PASSWORD`: password for above username
+    - `POSTGRES_DB`: database name to create
+
 ## Development Environment
 Development Environment provides some extra features such as
 - hot-reload code changes
