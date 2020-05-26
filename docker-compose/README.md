@@ -62,32 +62,15 @@ Production Environment cuts out development helper feature and focus on performa
 - hot-reload is disabled
 - logging is disabled on most parts (except system log files)
 - all images are built with performance-focus.
-### Start production environment
+### Working with production environment
+You can use the same development environment commands with a little tweak on them.
+By replacing `dev` with `production`. for an example.
+```bash
+make dev-system
+```
+turns to
 ```bash
 make production-system
 ```
-### First-time-only setup steps
 > Be **extra careful** when you're trying to run command that related to database function. 
 >Make sure you use them correctly. 
-
-When the above command finished running.
-You will have the brand-new system with empty databases. You need to
-- run migration command on both **TSRI** and **Queueing** system
-```bash
-make production-queueing-migrate
-make production-tsri-migrate
-```
-- initialize master data to **TSRI**
-```bash
-make production-tsri-init-data
-```
-- create super user on django system
-```bash
-make production-tsri-createsuperuser
-```
-> Note that these steps are "first-time-only" things. 
-  You don't need to run them everytime you start this environment.
-### Stop production environment
-```bash
-make production-down
-```
