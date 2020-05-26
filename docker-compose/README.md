@@ -8,7 +8,7 @@ This directory contains [Makefile](Makefile) which you can use to fast-forward m
 Some of them are critical, credential, and consider secret. 
 So **don't push them to any git repositories**. 
 In this repo we provide an example on what and how you should edit these .env files.
-> These files' name are formatted as 
+> These filenames are formatted as 
 >.env.{env-name}.{system-to-focus (optional. Empty means it's main .env file)}
 >though this is not required but it's how to keep everything organize.
 ### Queueing
