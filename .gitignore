@@ -4,6 +4,6 @@
 secrets/
 
 docker-compose/queueing/database-config/*
-!docker-compose/queueing/database-config/*.example.*
+!docker-compose/queueing/database-config/*.dev.*
 
 .DS_Store
