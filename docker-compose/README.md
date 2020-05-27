@@ -56,7 +56,7 @@ There are 3 env files
         The final url that download process usw will be `https://abc.com/doc/qwerty_doc.pdf`
 
 > There is [database config file](queueing/database-config/config.json) 
-> used in Express application. You need to edit this file to match with [database env file](queueing/.env.example.db).
+> used in Express application. You need to edit this file to match with [database env file](queueing/.env.dev.db).
 > This file **should not** be push to any git repositories. Like .env files. Since it contains database secrets.
 
 ### TSRI
