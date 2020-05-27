@@ -1,5 +1,9 @@
 .env*
 !.env.dev*
+
 secrets/
-database-config/
+
+database-config/*
+!database-config/*example*
+
 .DS_Store
