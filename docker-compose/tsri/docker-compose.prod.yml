@@ -3,7 +3,7 @@ version: '3.5'
 services:
 
   # Nginx
-  nginx:
+  t-nginx:
     container_name: trsi-nginx
     build:
       context: ../../../tsri-system/tsri-nginx/prod
@@ -14,9 +14,11 @@ services:
     ports:
       - "8090:80"
     restart: always
+    networks:
+      - tsri-queueing
 
   # Postgres DB
-  db:
+  postgres-db:
     container_name: tsri-db
     image: postgres:12.0-alpine
     ports:
@@ -26,6 +28,8 @@ services:
       - ../../../tsri-system/tsri-postgres/postgres_data_prod:/var/lib/postgresql/data/
     env_file:
       - .env.prod.db
+    networks:
+      - tsri-queueing
 
   # Django
   django:
@@ -35,10 +39,16 @@ services:
     command: gunicorn trfai.wsgi:application --bind 0.0.0.0:8000
     restart: always
     depends_on:
-      - db
+      - postgres-db
     volumes:
       - ../../../tsri-system/tsri-django/assets:/app/assets
       - ../../../tsri-system/tsri-django/trfai/trfai_app/migrations:/app/trfai/trfai_app/migrations
       - ../../../tsri-system/tsri-django/trfai/templates/ldavis:/app/trfai/templates/ldavis
     env_file:
       - .env.prod
+    networks:
+      - tsri-queueing
+
+networks:
+  tsri-queueing:
+    name: tsri-queueing

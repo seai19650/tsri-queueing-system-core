@@ -10,21 +10,21 @@ services:
     build:
       context: ../../../queueing-system/queueing-frontend
     networks: 
-      - queueing_link
+      - tsri-queueing
 
   ##############
   #-API System-#
   ##############
 
   # Nginx Reverse Proxy
-  nginx:
+  q-nginx:
     container_name: queueing-nginx
     build:
       context: ../../../queueing-system/queueing-nginx
     ports:
       - "8080:80"
     networks: 
-      - queueing_link
+      - tsri-queueing
     depends_on:
       - express
       - frontend
@@ -41,7 +41,7 @@ services:
     volumes:
       - ./database-config:/app/config
     networks: 
-      - queueing_link
+      - tsri-queueing
     env_file:
       - .env.prod    
   
@@ -56,7 +56,7 @@ services:
     env_file:
       - .env.prod.db
     networks: 
-      - queueing_link
+      - tsri-queueing
   
   # RabbitMQ
   rabbitmq:
@@ -68,14 +68,14 @@ services:
     volumes:
       - ../../../queueing-system/queueing-rabbitmq:/var/lib/rabbitmq
     networks: 
-      - queueing_link
+      - tsri-queueing
 
   # Redis
   redis:
     container_name: queueing-redis
     image: "redis:alpine"
     networks:
-      - queueing_link
+      - tsri-queueing
   
   ##############
   #---Worker---#
@@ -90,8 +90,8 @@ services:
       - ../../../queueing-system/queueing-worker/results:/app/results
     restart: always
     networks: 
-      - queueing_link
+      - tsri-queueing
 
 networks:
-  queueing_link:
-    name: Queueing_Link
+  tsri-queueing:
+    name: tsri-queueing

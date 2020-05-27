@@ -14,7 +14,7 @@ services:
       - /app/node_modules
       - ../../../queueing-system/queueing-frontend:/app
     networks: 
-      - queueing_link
+      - tsri-queueing
     ports:
       - "3000:3000"
 
@@ -23,7 +23,7 @@ services:
   ##############
 
   # Nginx Reverse Proxy
-  nginx:
+  q-nginx:
     container_name: queueing-nginx
     build:
       dockerfile: Dockerfile.dev
@@ -32,7 +32,7 @@ services:
       - "8080:80"
       - "9229:9229"
     networks: 
-      - queueing_link
+      - tsri-queueing
     depends_on:
       - express
       - frontend
@@ -52,7 +52,7 @@ services:
       - db
       - rabbitmq
     networks: 
-      - queueing_link
+      - tsri-queueing
     env_file:
       - .env.dev
   
@@ -69,7 +69,7 @@ services:
     env_file:
       - .env.dev.db
     networks: 
-      - queueing_link
+      - tsri-queueing
   
   # RabbitMQ
   rabbitmq:
@@ -83,14 +83,14 @@ services:
     volumes:
       - ../../../queueing-system/queueing-rabbitmq:/var/lib/rabbitmq
     networks: 
-      - queueing_link
+      - tsri-queueing
 
   # Redis
   redis:
     container_name: queueing-redis
     image: "redis:alpine"
     networks:
-      - queueing_link
+      - tsri-queueing
   
   ##############
   #---Worker---#
@@ -104,8 +104,10 @@ services:
       - ../../../queueing-system/queueing-worker:/app
     restart: always
     networks: 
-      - queueing_link
+      - tsri-queueing
+    env_file:
+      - .env.dev.worker
 
 networks:
-  queueing_link:
-    name: Queueing_Link
+  tsri-queueing:
+    name: tsri-queueing

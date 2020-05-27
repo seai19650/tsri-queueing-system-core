@@ -7,6 +7,8 @@ tsri-production-compose = docker-compose -f "./tsri/docker-compose.prod.yml"
 # System
 
 dev-restart:
+	$(queueing-dev-compose) stop
+	$(tsri-dev-compose) stop
 	$(queueing-dev-compose) down -v
 	$(tsri-dev-compose) down -v
 	$(queueing-dev-compose) up -d

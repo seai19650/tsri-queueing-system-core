@@ -5,12 +5,14 @@ This directory contains [Makefile](Makefile) which you can use to fast-forward m
 .env are files with some key-values to use in the system via **docker-compose**. 
 Some of them are critical, credential, and consider secret. 
 So **don't push them to any git repositories**. 
-In this repo we provide an example on what and how you should edit these .env files.
+In this repo we provide dev environment files which works out-of-box, 
+and the explanation on how to edit them.
 
 **Development env files are**
    - queueing/.env.dev
    - queueing/.env.dev.db
    - queueing/.env.dev.rabbitmq
+   - queueing/.env.dev.worker
    - tsri/.env.dev
    - tsri/.env.dev.db
 
@@ -18,12 +20,13 @@ In this repo we provide an example on what and how you should edit these .env fi
    - queueing/.env.prod
    - queueing/.env.prod.db
    - queueing/.env.prod.rabbitmq
+   - queueing/.env.prod.worker
    - tsri/.env.prod
    - tsri/.env.prod.db
 
 ### Queueing
 There are 3 env files
-- main [.env.example](queueing/.env.example)
+- main [.env.dev](queueing/.env.dev)
     - `NODE_ENV`: Application State
         - ex. `development` or blank means this express is running in development mode.
         - this value is used to determine which database config to use from [database config file](queueing/database-config/config.json) 
@@ -35,7 +38,7 @@ There are 3 env files
     (Usually comes from Django Access Token User Account)
         - ex. `"Token QWERTYUIOP123456789ASDFGHJKLZXCVB"`
         
-- database [.env.example.db](queueing/.env.example.db)
+- database [.env.dev.db](queueing/.env.dev.db)
     - `MYSQL_USER`: main username for database to create
     - `MYSQL_PASSWORD` : main password for above username
     - `MYSQL_ROOT_PASSWORD`: root password for database access
@@ -43,9 +46,14 @@ There are 3 env files
     - `TZ`: Timezone for the system.
         - ex.  `Asia/Bangkok`
         
-- rabbitmq [.env.example.rabbitmq](queueing/.env.example.rabbitmq)
+- rabbitmq [.env.dev.rabbitmq](queueing/.env.dev.rabbitmq)
     - `RABBITMQ_DEFAULT_USER`: username to initialize rabbitmq
     - `RABBITMQ_DEFAULT_PASS`: password for above username
+
+- worker [.env.dev.worker](queueing/.env.dev.worker)
+    - `PROXY_DOMAIN`: the domain name to use in download process. Leave this blank to use the given one.
+        - if this is set to `https://abc.com` and the given url is `https://xyz.com/doc/qwerty_doc.pdf`. 
+        The final url that download process usw will be `https://abc.com/doc/qwerty_doc.pdf`
 
 > There is [database config file](queueing/database-config/config.json) 
 > used in Express application. You need to edit this file to match with [database env file](queueing/.env.example.db).
@@ -53,7 +61,7 @@ There are 3 env files
 
 ### TSRI
 There are 2 env files
-- main [.env.example](tsri/.env.example)
+- main [.env.dev](tsri/.env.dev)
     - `DEBUG`: `1` for debug `0` for production
     - `DJANGO_ALLOWED_HOSTS`: allow host for Django
     - `SQL_ENGINE`: SQL Engine to use
@@ -71,7 +79,7 @@ There are 2 env files
     - `API_URL`: the url endpoint that TSRI will use to send request to Queueing System
         - ex. `http://localhost:8080/api/request`
         
-- database [.env.example.db](tsri/.env.example.db)
+- database [.env.dev.db](tsri/.env.dev.db)
     - `POSTGRES_USER`: username to initialize database
     - `POSTGRES_PASSWORD`: password for above username
     - `POSTGRES_DB`: database name to create
