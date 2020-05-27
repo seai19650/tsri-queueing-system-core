@@ -3,7 +3,7 @@
 
 secrets/
 
-database-config/*
-!database-config/*example*
+docker-compose/queueing/database-config/*
+!docker-compose/queueing/database-config/*.example.*
 
 .DS_Store
